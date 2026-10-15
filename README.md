@@ -118,6 +118,12 @@ Replace the filename with the pending migration and `DB` with your D1 binding na
 
 When using the Sites plugin, follow its skill instructions for installation, builds, and publishing. These npm commands remain available for standalone use.
 
+## GitHub Pages preview
+
+`npm run build:pages` creates a static preview in `dist-pages/` using the sample catalog. Pushes to `main` run `.github/workflows/pages.yml` to build and deploy that artifact. Set the repository's Pages deployment source to GitHub Actions.
+
+Catalog search and map navigation use local sample data in this preview. Inquiry submission and tracking and the administrator tools require the server and D1 database; connect the Cloudflare backend before relying on those features.
+
 The portable build runs Vinext directly without a host `timeout` command. The managed-linux build uses `scripts/build-verified.sh` and its existing `SITES_BUILD_TIMEOUT` setting.
 
 ## Learn More
