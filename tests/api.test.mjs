@@ -1,0 +1,23 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+const base=process.env.TEST_BASE_URL||'http://127.0.0.1:5173';
+test('inquiry access, validation, persistence, administrator authorization and version conflict',async()=>{
+ const send=(path,options={})=>fetch(base+path,{...options,headers:{Origin:base,'Content-Type':'application/json',...options.headers}});
+ assert.equal((await send('/api/admin/tickets')).status,403);
+ assert.equal((await send('/api/admin/tickets',{headers:{'oai-authenticated-user-id':'local_seedy','oai-authenticated-user-email':'fake@example.com'}})).status,403);
+ const invalidOrigin=await fetch(base+'/api/tickets',{method:'POST',headers:{Origin:'https://invalid.example','Content-Type':'application/json'},body:'{}'});assert.equal(invalidOrigin.status,403);
+ const body={type:'missing',subject:'[자동 검증] 접근 제어와 답변 이력',message:'이 문의는 시제품 검증용 예시입니다.',email:'test@example.com',bookId:'b1',step:2};
+ assert.equal((await send('/api/tickets',{method:'POST',body:JSON.stringify({...body,attachment:'data:image/svg+xml;base64,PHN2Zz4='})})).status,400);
+ const create=await send('/api/tickets',{method:'POST',body:JSON.stringify(body)});assert.equal(create.status,201);const {id,token}=await create.json();
+ assert.equal((await send('/api/tickets/'+id)).status,404);
+ assert.equal((await send('/api/tickets/'+id,{headers:{'X-Inquiry-Token':'wrong'}})).status,404);
+ const own=await send('/api/tickets/'+id,{headers:{'X-Inquiry-Token':token}});assert.equal(own.status,200);const first=await own.json();assert.equal(first.ticket.subject,body.subject);assert.equal(first.ticket.email,undefined);assert.equal(first.ticket.note,undefined);assert.equal(first.ticket.token_hash,undefined);
+ const login=await fetch(base+'/signin-with-chatgpt?return_to=/admin',{redirect:'manual'});const cookie=login.headers.getSetCookie().map(v=>v.split(';')[0]).join('; ');assert.ok(cookie);
+ const auth={Cookie:cookie};const details=await (await send('/api/admin/tickets/'+id,{headers:auth})).json();assert.equal(details.ticket.version,1);
+ const update={status:'answered',response:'검증 완료: 서가 위치를 확인했습니다.',note:'외부에 보이면 안 되는 내부 메모',assignee:'테스트 담당자',version:1};
+ assert.equal((await send('/api/admin/tickets/'+id,{method:'PATCH',headers:auth,body:JSON.stringify({...update,response:''})})).status,400);
+ assert.equal((await send('/api/admin/tickets/'+id,{method:'PATCH',headers:auth,body:JSON.stringify(update)})).status,200);
+ assert.equal((await send('/api/admin/tickets/'+id,{method:'PATCH',headers:auth,body:JSON.stringify(update)})).status,409);
+ const after=await (await send('/api/tickets/'+id,{headers:{'X-Inquiry-Token':token}})).json();assert.equal(after.ticket.response,update.response);assert.equal(after.ticket.status,'answered');assert.equal(after.events.length,2);assert.equal(after.ticket.note,undefined);assert.equal(after.ticket.assignee,undefined);assert.equal(after.events[1].actor,undefined);
+ assert.equal((await send('/api/admin/tickets/'+id,{method:'PATCH',headers:auth,body:JSON.stringify({...update,status:'closed',version:2})})).status,200);
+});

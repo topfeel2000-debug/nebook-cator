@@ -1,0 +1,5 @@
+import {sqliteTable,text,integer} from 'drizzle-orm/sqlite-core';
+export const tickets=sqliteTable('tickets',{
+ id:text('id').primaryKey(),tokenHash:text('token_hash').notNull(),type:text('type').notNull(),subject:text('subject').notNull(),message:text('message').notNull(),email:text('email').notNull(),context:text('context').notNull(),attachment:text('attachment'),status:text('status').notNull().default('received'),assignee:text('assignee').notNull().default(''),response:text('response').notNull().default(''),note:text('note').notNull().default(''),createdAt:integer('created_at').notNull(),updatedAt:integer('updated_at').notNull(),clientHash:text('client_hash').notNull(),version:integer('version').notNull().default(1)
+});
+export const events=sqliteTable('ticket_events',{id:text('id').primaryKey(),ticketId:text('ticket_id').notNull().references(()=>tickets.id),status:text('status').notNull(),response:text('response').notNull(),actor:text('actor').notNull(),createdAt:integer('created_at').notNull()});
