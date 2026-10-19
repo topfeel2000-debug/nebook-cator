@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "./preview-redesign.css";
 import "./seed-theme.css";
+import "./auth.css";
 
 export const metadata: Metadata = {
   title: "네북케이터 · 영남대학교 법학도서관",

@@ -4,6 +4,7 @@ import Navigator from "../app/navigator";
 import "../app/globals.css";
 import "../app/preview-redesign.css";
 import "../app/seed-theme.css";
+import "../app/auth.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
