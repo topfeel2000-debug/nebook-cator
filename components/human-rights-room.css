@@ -160,6 +160,10 @@
 .hr-photo-heading > div:first-child span { color: var(--hr-muted); font-size: 11px; }
 .hr-photo-heading > div:first-child strong { font-size: 15px; font-weight: 700; }
 .hr-photo-arrows { display: flex; gap: 5px; }
+.hr-photo-actions { display: flex; align-items: center; gap: 7px; }
+.hr-view-mode-switch { display: flex; align-items: center; padding: 3px; border: 1px solid var(--hr-line); border-radius: 10px; background: #f7f7f8; }
+.hr-view-mode-switch button { min-height: 29px; padding: 0 9px; border: 0; border-radius: 7px; background: transparent; color: #66707a; font-size: 10px; font-weight: 650; white-space: nowrap; }
+.hr-view-mode-switch button.active { color: #9f3d09; background: white; box-shadow: 0 1px 4px #1a1c2017; }
 .hr-photo-arrows button {
   width: 35px;
   height: 35px;
@@ -180,6 +184,7 @@
   touch-action: none;
 }
 .hr-panorama-stage:active { cursor: grabbing; }
+.hr-game-stage { cursor: grab; background: #c6d1d3; }
 .hr-panorama-stage canvas { display: block; width: 100%; height: 100%; opacity: 1; filter: blur(0); transition: opacity .28s ease, filter .28s ease; }
 .hr-panorama-stage[data-state="loading"] canvas { opacity: .58; filter: blur(2px); }
 .hr-viewer-state {
@@ -213,6 +218,13 @@
 .hr-walk-controls button { touch-action: none; user-select: none; }
 .hr-walk-controls button:active { transform: scale(.94); }
 .hr-walk-controls button.hr-walk-forward { width: 43px; height: 43px; border-color: #ff944b; background: var(--hr-accent); }
+.hr-game-dot { width: 7px; height: 7px; border-radius: 50%; background: #93dc9c; box-shadow: 0 0 8px #93dc9c; }
+.hr-game-controls { position: absolute; z-index: 3; left: 50%; bottom: 12px; display: flex; align-items: center; gap: 5px; transform: translateX(-50%); padding: 5px; border: 1px solid #ffffff48; border-radius: 12px; background: #111820c9; box-shadow: 0 5px 18px #05090d55; backdrop-filter: blur(8px); }
+.hr-game-controls button { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid #ffffff2b; border-radius: 9px; background: #ffffff0b; color: white; cursor: pointer; touch-action: none; user-select: none; transition: background .16s ease, transform .16s ease; }
+.hr-game-controls button:hover { background: #ffffff28; transform: translateY(-1px); }
+.hr-game-controls button:active { transform: scale(.94); }
+.hr-game-controls button.hr-game-forward { width: 43px; height: 43px; border-color: #ff944b; background: var(--hr-accent); }
+.hr-game-controls button.hr-game-reset { width: 32px; height: 32px; margin-left: 3px; color: #d9e1e7; }
 .hr-walk-route { position: relative; height: 13px; margin: 15px 8px 1px; border-radius: 999px; background: #e5e7ea; }
 .hr-walk-route-fill { position: absolute; top: 5px; left: 0; height: 3px; border-radius: inherit; background: var(--hr-accent); transition: width .35s ease; }
 .hr-walk-route-stop { position: absolute; top: 2px; width: 9px; height: 9px; border: 2px solid #a7adb5; border-radius: 50%; background: white; transform: translateX(-50%); }
@@ -353,6 +365,13 @@
   .hr-walk-controls { bottom: 8px; gap: 4px; padding: 4px; }
   .hr-walk-controls button { width: 32px; height: 32px; }
   .hr-walk-controls button.hr-walk-forward { width: 38px; height: 38px; }
+  .hr-photo-heading { align-items: start; }
+  .hr-photo-actions { align-items: flex-end; flex-direction: column; gap: 5px; }
+  .hr-view-mode-switch button { min-height: 27px; padding: 0 7px; font-size: 9px; }
+  .hr-game-controls { bottom: 8px; gap: 4px; padding: 4px; }
+  .hr-game-controls button { width: 32px; height: 32px; }
+  .hr-game-controls button.hr-game-forward { width: 38px; height: 38px; }
+  .hr-game-controls button.hr-game-reset { width: 29px; height: 29px; }
   .hr-photo-caption { font-size: 9px; }
   .hr-sources { padding: 33px 0 27px; }
   .hr-section-heading { align-items: start; gap: 12px; }
