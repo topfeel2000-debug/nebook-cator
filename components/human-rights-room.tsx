@@ -149,7 +149,7 @@ const basePath = import.meta.env.BASE_URL || "/";
 const panoramaPath = (name: string) => basePath + "human-rights-panorama/" + name;
 // Follow the original capture sequence from the entrance into the library,
 // skipping repeated viewpoints along the way.
-const walkRoute = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 19, 21, 22, 23, 25, 26, 27, 28, 29];
+const walkRoute = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 17, 19, 21, 22, 23, 25, 26, 27, 28, 29];
 const photoFiles = walkRoute.map((number, index) => ({
   src: panoramaPath("panorama-" + String(number).padStart(2, "0") + ".jpg"),
   yaw: index < 11 ? Math.PI : 0,
