@@ -147,17 +147,14 @@ const copy: Record<Language, Record<string, string>> = {
 const categories: ResourceKind[] = ["foundation", "education", "children"];
 const basePath = import.meta.env.BASE_URL || "/";
 const panoramaPath = (name: string) => basePath + "human-rights-panorama/" + name;
-// Ordered by the visible landmarks and room transitions so each step feels
-// like continuing through the library. Near-identical viewpoints are omitted.
-const walkRoute = [1, 26, 7, 9, 10, 8, 22, 6, 5, 25, 2, 3, 4, 23, 29, 28, 19, 17, 14, 11, 12, 13, 27, 21];
-const photoFiles = walkRoute.map((number, index) => ({
+// Follow the original capture sequence from the entrance into the library,
+// skipping repeated viewpoints along the way.
+const walkRoute = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 17, 19, 21, 22, 23, 25, 26, 27, 28, 29];
+const photoFiles = walkRoute.map((number) => ({
   src: panoramaPath("panorama-" + String(number).padStart(2, "0") + ".jpg"),
-  // The first view looks down the entrance aisle; subsequent stops face into
-  // the reading area so a capture's wall or pillar does not fill the screen.
-  yaw: index === 0 ? 0 : 1.96,
 }));
 
-function PanoramaViewer({ src, initialYaw, label, keys, loading, error, moveForward, moveBack, turnLeft, turnRight, onWalk }: { src: string; initialYaw: number; label: string; keys: string; loading: string; error: string; moveForward: string; moveBack: string; turnLeft: string; turnRight: string; onWalk: (direction: number) => void }) {
+function PanoramaViewer({ src, label, keys, loading, error, moveForward, moveBack, turnLeft, turnRight, onWalk }: { src: string; label: string; keys: string; loading: string; error: string; moveForward: string; moveBack: string; turnLeft: string; turnRight: string; onWalk: (direction: number) => void }) {
   const host = useRef<HTMLDivElement>(null);
   const onWalkRef = useRef(onWalk);
   onWalkRef.current = onWalk;
@@ -166,7 +163,6 @@ function PanoramaViewer({ src, initialYaw, label, keys, loading, error, moveForw
   const sphereRef = useRef<import("three").Mesh | null>(null);
   const textureRef = useRef<import("three").Texture | null>(null);
   const loadPhotoRef = useRef<(source: string) => void>(() => {});
-  const alignViewRef = useRef<(yaw: number) => void>(() => {});
   const loadRequestRef = useRef(0);
   const loadedSourceRef = useRef("");
   const viewRef = useRef({ yaw: 0, pitch: 0, fov: 76 });
@@ -280,7 +276,6 @@ function PanoramaViewer({ src, initialYaw, label, keys, loading, error, moveForw
         canvas.addEventListener("wheel", onWheel, { passive: false });
         element.addEventListener("keydown", onKey);
         turnRef.current = (direction) => { yaw += direction * 0.28; look(); };
-        alignViewRef.current = (nextYaw) => { yaw = nextYaw; pitch = 0; fov = 76; look(); };
         observer = new ResizeObserver(resize);
         observer.observe(element);
         resize();
@@ -338,9 +333,8 @@ function PanoramaViewer({ src, initialYaw, label, keys, loading, error, moveForw
   useEffect(() => {
     if (src === loadedSourceRef.current || !sphereRef.current) return;
     setState("loading");
-    alignViewRef.current(initialYaw);
     loadPhotoRef.current(src);
-  }, [src, initialYaw]);
+  }, [src]);
 
   return (
     <div className="hr-panorama-stage" ref={host} tabIndex={0} aria-label={label}>
@@ -413,7 +407,7 @@ export default function HumanRightsRoom({
           </div>
           <div className="hr-photo-card">
             <div className="hr-photo-heading"><div><span>{t.tour}</span><strong>{t.photo} {String(photoIndex + 1).padStart(2, "0")}</strong></div><div className="hr-photo-arrows"><button aria-label={t.prev} disabled={photoIndex===0} onClick={() => changePhoto(-1)}><ChevronLeft size={18} /></button><button aria-label={t.next} disabled={photoIndex===photoFiles.length-1} onClick={() => changePhoto(1)}><ChevronRight size={18} /></button></div></div>
-            <PanoramaViewer src={currentPhoto.src} initialYaw={currentPhoto.yaw} label={t.photo + " " + (photoIndex + 1)} keys={t.keys} loading={t.loading} error={t.photoError} moveForward={t.moveForward} moveBack={t.moveBack} turnLeft={t.turnLeft} turnRight={t.turnRight} onWalk={changePhoto} />
+            <PanoramaViewer src={currentPhoto.src} label={t.photo + " " + (photoIndex + 1)} keys={t.keys} loading={t.loading} error={t.photoError} moveForward={t.moveForward} moveBack={t.moveBack} turnLeft={t.turnLeft} turnRight={t.turnRight} onWalk={changePhoto} />
             <div className="hr-walk-route" role="progressbar" aria-label={t.tour} aria-valuemin={1} aria-valuemax={photoFiles.length} aria-valuenow={photoIndex+1}>
               <span className="hr-walk-route-fill" style={{ width: `${(photoIndex/(photoFiles.length-1))*100}%` }} />
               <span className="hr-walk-route-stop hr-walk-route-start" />
