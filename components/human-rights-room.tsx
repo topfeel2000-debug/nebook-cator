@@ -124,22 +124,22 @@ const resources: Resource[] = [
 const copy: Record<Language, Record<string, string>> = {
   ko: {
     back: "도서관 길찾기", eyebrow: "법학도서관 · 인권자료실", title: "사람의 존엄을 배우는 책과 자료", intro: "인권의 기준이 된 문서와 공식 교육 자료를 모았습니다. 자료를 읽고, 도서관 현장도 360도로 둘러보세요.",
-    tour: "도서관 현장 둘러보기", tourHelp: "마우스로 시선을 돌리고 방향키나 W/S로 앞뒤 지점을 이동하세요.", photo: "현장 파노라마", photoCount: "지점", prev: "뒤쪽 지점", next: "앞쪽 지점", moveForward: "앞으로 이동", moveBack: "뒤로 이동", turnLeft: "왼쪽 보기", turnRight: "오른쪽 보기", photoNote: "현장 촬영 사진입니다. 서가별 자료 위치나 현재 소장 여부를 나타내지는 않습니다.",
+    tour: "도서관 현장 둘러보기", tourHelp: "마우스로 둘러보고 ↑/W 또는 화면의 이동 버튼을 길게 눌러 걸어가세요.", photo: "현장 파노라마", photoCount: "지점", prev: "뒤쪽 지점", next: "앞쪽 지점", moveForward: "앞으로 이동", moveBack: "뒤로 이동", turnLeft: "왼쪽 보기", turnRight: "오른쪽 보기", photoNote: "현장 촬영 사진입니다. 서가별 자료 위치나 현재 소장 여부를 나타내지는 않습니다.",
     collection: "공식 자료에서 읽는 인권", collectionHelp: "공공기관과 국제기구가 공개한 원문·교육 자료로 연결합니다.", search: "자료 제목이나 기관 검색", all: "전체", foundation: "기본 문서", education: "교육 자료", children: "아동 권리", noResults: "자료를 찾지 못했습니다.", open: "원문 보기", source: "자료 제공 기관", result: "개 자료", language: "언어", linkNote: "링크를 누르면 자료 제공 기관의 웹사이트가 새 창으로 열립니다.", backTop: "길찾기로 돌아가기", library: "네북케이터", tip: "이 자료실은 공개된 참고 자료를 모아 안내합니다. 최신 법령 해석이나 법률 상담을 대신하지 않습니다.", keys: "마우스로 보기 · ↑/W 앞으로 · ↓/S 뒤로 · ←→ 방향 전환 · +/− 확대", loading: "360도 사진을 불러오는 중입니다.", photoError: "사진을 불러오지 못했습니다. 다른 사진을 선택해 주세요.", noticeTitle: "자료 이용 안내",
   },
   en: {
     back: "Library guide", eyebrow: "Law Library · Human Rights Resources", title: "Books and sources for learning about human dignity", intro: "A starting point for foundational human rights documents and official learning materials. Read a source, then look around the library in 360°.",
-    tour: "Look around the library", tourHelp: "Drag to look. Use the arrows or W/S to walk between viewpoints.", photo: "Library panorama", photoCount: "stop", prev: "Previous stop", next: "Next stop", moveForward: "Walk forward", moveBack: "Walk back", turnLeft: "Turn left", turnRight: "Turn right", photoNote: "These are on-site photographs. They do not identify shelf locations or current holdings.",
+    tour: "Look around the library", tourHelp: "Drag to look. Hold ↑/W or the on-screen walk buttons to keep moving.", photo: "Library panorama", photoCount: "stop", prev: "Previous stop", next: "Next stop", moveForward: "Walk forward", moveBack: "Walk back", turnLeft: "Turn left", turnRight: "Turn right", photoNote: "These are on-site photographs. They do not identify shelf locations or current holdings.",
     collection: "Human rights, through public sources", collectionHelp: "Links to primary texts and learning materials published by public bodies and international organizations.", search: "Search titles or institutions", all: "All", foundation: "Foundational texts", education: "Education", children: "Children’s rights", noResults: "No sources found.", open: "Open source", source: "Provided by", result: "sources", language: "Language", linkNote: "Links open the source institution’s website in a new tab.", backTop: "Return to library guide", library: "Nebookator", tip: "This page gathers public reference materials. It is not legal advice or an interpretation of current law.", keys: "Drag to look · ↑/W forward · ↓/S back · ←→ turn · +/− zoom", loading: "Loading the 360° photo…", photoError: "The photo could not be loaded. Choose another one.", noticeTitle: "Using these sources",
   },
   zh: {
     back: "图书馆导航", eyebrow: "法学图书馆 · 人权资料室", title: "从书籍与资料中认识人的尊严", intro: "汇集人权基础文件与官方教育资料。阅读资料后，也可以通过360度照片浏览图书馆。",
-    tour: "浏览图书馆现场", tourHelp: "拖动以环视；使用方向键或 W/S 在各位置间行走。", photo: "现场全景", photoCount: "个位置", prev: "上一个位置", next: "下一个位置", moveForward: "向前移动", moveBack: "向后移动", turnLeft: "向左转", turnRight: "向右转", photoNote: "这些是现场拍摄的照片，不表示具体书架位置或当前馆藏情况。",
+    tour: "浏览图书馆现场", tourHelp: "拖动以环视；按住 ↑/W 或屏幕上的移动按钮即可连续行走。", photo: "现场全景", photoCount: "个位置", prev: "上一个位置", next: "下一个位置", moveForward: "向前移动", moveBack: "向后移动", turnLeft: "向左转", turnRight: "向右转", photoNote: "这些是现场拍摄的照片，不表示具体书架位置或当前馆藏情况。",
     collection: "通过公开资料阅读人权", collectionHelp: "链接至公共机构和国际组织发布的原文与教育资料。", search: "搜索资料名称或机构", all: "全部", foundation: "基础文件", education: "教育资料", children: "儿童权利", noResults: "没有找到资料。", open: "查看原文", source: "资料来源", result: "项资料", language: "语言", linkNote: "点击后将在新标签页打开资料提供机构的网站。", backTop: "返回图书馆导航", library: "Nebookator", tip: "本资料室汇集公开参考资料，不构成法律意见或对现行法律的解释。", keys: "拖动视线 · ↑/W前进 · ↓/S后退 · ←→转向 · +/−缩放", loading: "正在加载360度照片…", photoError: "无法加载照片，请选择其他照片。", noticeTitle: "资料使用说明",
   },
   vi: {
     back: "Hướng dẫn thư viện", eyebrow: "Thư viện Luật · Tài liệu Nhân quyền", title: "Sách và tài liệu giúp tìm hiểu phẩm giá con người", intro: "Tập hợp các văn kiện nền tảng về nhân quyền và tài liệu giáo dục chính thức. Hãy đọc tài liệu và tham quan thư viện qua ảnh 360°.",
-    tour: "Tham quan thư viện", tourHelp: "Kéo để nhìn quanh; dùng phím mũi tên hoặc W/S để đi giữa các điểm.", photo: "Ảnh toàn cảnh", photoCount: "điểm", prev: "Điểm trước", next: "Điểm tiếp", moveForward: "Đi về phía trước", moveBack: "Đi lùi", turnLeft: "Quay trái", turnRight: "Quay phải", photoNote: "Đây là ảnh chụp tại thư viện; ảnh không cho biết vị trí kệ sách hay tình trạng tài liệu hiện có.",
+    tour: "Tham quan thư viện", tourHelp: "Kéo để nhìn quanh; giữ ↑/W hoặc nút di chuyển trên màn hình để tiếp tục đi.", photo: "Ảnh toàn cảnh", photoCount: "điểm", prev: "Điểm trước", next: "Điểm tiếp", moveForward: "Đi về phía trước", moveBack: "Đi lùi", turnLeft: "Quay trái", turnRight: "Quay phải", photoNote: "Đây là ảnh chụp tại thư viện; ảnh không cho biết vị trí kệ sách hay tình trạng tài liệu hiện có.",
     collection: "Tìm hiểu nhân quyền qua nguồn công khai", collectionHelp: "Liên kết đến văn bản gốc và tài liệu học tập do cơ quan công và tổ chức quốc tế công bố.", search: "Tìm theo tên tài liệu hoặc cơ quan", all: "Tất cả", foundation: "Văn kiện nền tảng", education: "Giáo dục", children: "Quyền trẻ em", noResults: "Không tìm thấy tài liệu.", open: "Mở tài liệu", source: "Đơn vị cung cấp", result: "tài liệu", language: "Ngôn ngữ", linkNote: "Liên kết sẽ mở trang web của đơn vị cung cấp trong thẻ mới.", backTop: "Quay lại hướng dẫn thư viện", library: "Nebookator", tip: "Trang này tập hợp tài liệu tham khảo công khai; không thay thế tư vấn pháp lý hoặc giải thích luật hiện hành.", keys: "Kéo để nhìn · ↑/W tới · ↓/S lùi · ←→ xoay · +/− thu phóng", loading: "Đang tải ảnh 360°…", photoError: "Không thể tải ảnh. Hãy chọn ảnh khác.", noticeTitle: "Lưu ý khi sử dụng tài liệu",
   },
 };
@@ -159,6 +159,9 @@ function PanoramaViewer({ src, initialYaw, label, keys, loading, error, moveForw
   const host = useRef<HTMLDivElement>(null);
   const onWalkRef = useRef(onWalk);
   onWalkRef.current = onWalk;
+  const movementTimerRef = useRef<number | null>(null);
+  const startWalkRef = useRef<(direction: number) => void>(() => {});
+  const stopWalkRef = useRef<() => void>(() => {});
   const sourceRef = useRef(src);
   sourceRef.current = src;
   const sphereRef = useRef<import("three").Mesh | null>(null);
@@ -171,8 +174,20 @@ function PanoramaViewer({ src, initialYaw, label, keys, loading, error, moveForw
   const alignViewRef = useRef<(yaw: number) => void>(() => {});
   const [state, setState] = useState<"loading" | "ready" | "error">("loading");
 
+  startWalkRef.current = (direction) => {
+    if (movementTimerRef.current !== null) return;
+    onWalkRef.current(direction);
+    movementTimerRef.current = window.setInterval(() => onWalkRef.current(direction), 1100);
+  };
+  stopWalkRef.current = () => {
+    if (movementTimerRef.current === null) return;
+    window.clearInterval(movementTimerRef.current);
+    movementTimerRef.current = null;
+  };
+
   useEffect(() => {
     let cancelled = false;
+    const inputEvents = new AbortController();
     let frame = 0;
     let renderer: import("three").WebGLRenderer | undefined;
     let scene: import("three").Scene | undefined;
@@ -262,14 +277,18 @@ function PanoramaViewer({ src, initialYaw, label, keys, loading, error, moveForw
           const delta = 0.12;
           if (event.key === "ArrowLeft") yaw -= delta;
           else if (event.key === "ArrowRight") yaw += delta;
-          else if (event.key === "ArrowUp" || event.key.toLowerCase() === "w") { event.preventDefault(); onWalkRef.current(1); return; }
-          else if (event.key === "ArrowDown" || event.key.toLowerCase() === "s") { event.preventDefault(); onWalkRef.current(-1); return; }
+          else if (event.key === "ArrowUp" || event.key.toLowerCase() === "w") { event.preventDefault(); startWalkRef.current(1); return; }
+          else if (event.key === "ArrowDown" || event.key.toLowerCase() === "s") { event.preventDefault(); startWalkRef.current(-1); return; }
           else if (event.key === "+" || event.key === "=") fov = Math.max(38, fov - 5);
           else if (event.key === "-") fov = Math.min(90, fov + 5);
           else return;
           event.preventDefault();
           look();
         };
+        const onKeyUp = (event: KeyboardEvent) => {
+          if (["arrowup", "arrowdown", "w", "s"].includes(event.key.toLowerCase())) stopWalkRef.current();
+        };
+        const onWindowBlur = () => stopWalkRef.current();
 
         canvas.addEventListener("pointerdown", onDown);
         canvas.addEventListener("pointermove", onMove);
@@ -277,6 +296,8 @@ function PanoramaViewer({ src, initialYaw, label, keys, loading, error, moveForw
         canvas.addEventListener("pointercancel", onUp);
         canvas.addEventListener("wheel", onWheel, { passive: false });
         element.addEventListener("keydown", onKey);
+        window.addEventListener("keyup", onKeyUp, { signal: inputEvents.signal });
+        window.addEventListener("blur", onWindowBlur, { signal: inputEvents.signal });
         turnRef.current = (direction) => { yaw += direction * 0.28; look(); };
         alignViewRef.current = (nextYaw) => { yaw = nextYaw; pitch = 0; look(); };
         observer = new ResizeObserver(resize);
@@ -319,6 +340,8 @@ function PanoramaViewer({ src, initialYaw, label, keys, loading, error, moveForw
     void init();
     return () => {
       cancelled = true;
+      stopWalkRef.current();
+      inputEvents.abort();
       cancelAnimationFrame(frame);
       observer?.disconnect();
       loadRequestRef.current += 1;
@@ -341,14 +364,14 @@ function PanoramaViewer({ src, initialYaw, label, keys, loading, error, moveForw
   }, [src, initialYaw]);
 
   return (
-    <div className="hr-panorama-stage" ref={host} tabIndex={0} aria-label={label}>
-      {state === "loading" && <div className="hr-viewer-state">{loading}</div>}
+    <div className="hr-panorama-stage" ref={host} tabIndex={0} aria-label={label} data-state={state}>
+      {state === "loading" && !loadedSourceRef.current && <div className="hr-viewer-state">{loading}</div>}
       {state === "error" && <div className="hr-viewer-state">{error}</div>}
       <span className="hr-viewer-label"><Camera size={14} /> 360°</span>
       <div className="hr-walk-controls" aria-label={label}>
         <button type="button" aria-label={turnLeft} title={turnLeft} onClick={() => turnRef.current(-1)}><ChevronLeft size={17} /></button>
-        <button type="button" aria-label={moveBack} title={moveBack} onClick={() => onWalk(-1)}><ChevronDown size={17} /></button>
-        <button type="button" className="hr-walk-forward" aria-label={moveForward} title={moveForward} onClick={() => onWalk(1)}><ChevronUp size={19} /></button>
+        <button type="button" aria-label={moveBack} title={moveBack} onPointerDown={(event) => { event.currentTarget.setPointerCapture(event.pointerId); startWalkRef.current(-1); }} onPointerUp={() => stopWalkRef.current()} onPointerCancel={() => stopWalkRef.current()} onLostPointerCapture={() => stopWalkRef.current()} onClick={(event) => { if (event.detail === 0) onWalk(-1); }}><ChevronDown size={17} /></button>
+        <button type="button" className="hr-walk-forward" aria-label={moveForward} title={moveForward} onPointerDown={(event) => { event.currentTarget.setPointerCapture(event.pointerId); startWalkRef.current(1); }} onPointerUp={() => stopWalkRef.current()} onPointerCancel={() => stopWalkRef.current()} onLostPointerCapture={() => stopWalkRef.current()} onClick={(event) => { if (event.detail === 0) onWalk(1); }}><ChevronUp size={19} /></button>
         <button type="button" aria-label={turnRight} title={turnRight} onClick={() => turnRef.current(1)}><ChevronRight size={17} /></button>
       </div>
       <span className="hr-viewer-help">{keys}</span>

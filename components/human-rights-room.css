@@ -180,7 +180,8 @@
   touch-action: none;
 }
 .hr-panorama-stage:active { cursor: grabbing; }
-.hr-panorama-stage canvas { display: block; width: 100%; height: 100%; }
+.hr-panorama-stage canvas { display: block; width: 100%; height: 100%; opacity: 1; filter: blur(0); transition: opacity .28s ease, filter .28s ease; }
+.hr-panorama-stage[data-state="loading"] canvas { opacity: .58; filter: blur(2px); }
 .hr-viewer-state {
   position: absolute;
   inset: 0;
@@ -209,6 +210,8 @@
 .hr-walk-controls { position: absolute; z-index: 3; left: 50%; bottom: 12px; display: flex; align-items: center; gap: 5px; transform: translateX(-50%); padding: 5px; border: 1px solid #ffffff48; border-radius: 12px; background: #111820c9; box-shadow: 0 5px 18px #05090d55; backdrop-filter: blur(8px); }
 .hr-walk-controls button { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid #ffffff2b; border-radius: 9px; background: #ffffff0b; color: white; transition: background .16s ease, transform .16s ease; }
 .hr-walk-controls button:hover { background: #ffffff28; transform: translateY(-1px); }
+.hr-walk-controls button { touch-action: none; user-select: none; }
+.hr-walk-controls button:active { transform: scale(.94); }
 .hr-walk-controls button.hr-walk-forward { width: 43px; height: 43px; border-color: #ff944b; background: var(--hr-accent); }
 .hr-walk-route { position: relative; height: 13px; margin: 15px 8px 1px; border-radius: 999px; background: #e5e7ea; }
 .hr-walk-route-fill { position: absolute; top: 5px; left: 0; height: 3px; border-radius: inherit; background: var(--hr-accent); transition: width .35s ease; }
