@@ -9,6 +9,7 @@ import {dictionary} from '../lib/i18n';
 import Inquiries,{request} from '../components/inquiries';
 import AuthMenu from '../components/auth-menu';
 import HumanRightsRoom from '../components/human-rights-room';
+import '../components/human-rights-entry.css';
 
 const githubPagesDemo=import.meta.env.VITE_GITHUB_PAGES_DEMO==='true';
 
@@ -39,6 +40,7 @@ export default function Navigator(){
  {!ready&&!failed&&<div className="scene-loading"><span className="loading-orbit"><BookOpen size={28}/></span><p>{t.loading}</p></div>}
  <div className="scene-topline"><span className="scene-badge"><span className="live-dot"/> {t.sample}</span></div>
  {!active&&mode!=='photo'&&<div className="map-intro"><span className="eyebrow">{t.explore}</span><h2>{t.choose}</h2></div>}
+ {!active&&mode==='overview'&&<a className="rights-room-card" href="#human-rights" aria-label="Law reading room, 인권자료실 열기"><img src={`${import.meta.env.BASE_URL}human-rights-room-illustration.png`} alt="3D로 표현한 법학 인권자료실"/><span className="rights-room-copy"><span className="rights-room-eyebrow">LAW READING ROOM</span><strong>{lang==='ko'?'인권자료실':lang==='zh'?'人权资料室':lang==='vi'?'Phòng đọc nhân quyền':'Human Rights Room'}</strong><span className="rights-room-description">{lang==='ko'?'인권과 법을 함께 읽는 공간':lang==='zh'?'阅读人权与法律的空间':lang==='vi'?'Không gian đọc về nhân quyền và luật':'Explore human rights and law'}</span><span className="rights-room-open">{lang==='ko'?'자료실 둘러보기':lang==='zh'?'进入资料室':lang==='vi'?'Khám phá phòng đọc':'Explore room'} <ArrowUpRight size={14}/></span></span></a>}
  {mode==='photo'&&<div className="photo-notice"><Camera size={14}/><span>{t.photoNotice}</span><button onClick={()=>setMode('overview')}>{t.returnView}<ArrowRight size={12}/></button></div>}
  <div className="map-controls"><button className="icon-button" aria-label={t.reset} onClick={()=>cmd('reset')}><RotateCcw size={18}/></button><div className="zoom-controls"><button className="icon-button" aria-label="Zoom in" onClick={()=>cmd('in')}><Plus size={19}/></button><button className="icon-button" aria-label="Zoom out" onClick={()=>cmd('out')}><Minus size={19}/></button></div><button className={'icon-button '+(mode==='map'?'control-active':'')} aria-label={t.map2d} onClick={()=>setMode(mode==='map'?'overview':'map')}><Map size={19}/></button><button className={'icon-button '+(mode==='photo'?'control-active':'')} aria-label={t.photo} onClick={()=>setMode(mode==='photo'?'overview':'photo')}><Camera size={19}/></button></div>
  <div className="scene-bottomline"><span>{mode==='indoor'||mode==='photo'?t.tourNotice:t.drag}</span><span className="keyboard-hint">{t.keyboard}</span></div>
