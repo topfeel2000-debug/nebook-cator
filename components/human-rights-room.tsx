@@ -166,18 +166,17 @@ function PanoramaViewer({ src, initialYaw, label, keys, loading, error, moveForw
   sourceRef.current = src;
   const sphereRef = useRef<import("three").Mesh | null>(null);
   const textureRef = useRef<import("three").Texture | null>(null);
-  const loadPhotoRef = useRef<(source: string) => void>(() => {});
+  const loadPhotoRef = useRef<(source: string, yaw: number) => void>(() => {});
   const loadRequestRef = useRef(0);
   const loadedSourceRef = useRef("");
   const viewRef = useRef({ yaw: initialYaw, pitch: 0, fov: 76 });
   const turnRef = useRef((direction: number) => {});
-  const alignViewRef = useRef<(yaw: number) => void>(() => {});
   const [state, setState] = useState<"loading" | "ready" | "error">("loading");
 
   startWalkRef.current = (direction) => {
     if (movementTimerRef.current !== null) return;
     onWalkRef.current(direction);
-    movementTimerRef.current = window.setInterval(() => onWalkRef.current(direction), 1100);
+    movementTimerRef.current = window.setInterval(() => onWalkRef.current(direction), 760);
   };
   stopWalkRef.current = () => {
     if (movementTimerRef.current === null) return;
@@ -193,6 +192,7 @@ function PanoramaViewer({ src, initialYaw, label, keys, loading, error, moveForw
     let scene: import("three").Scene | undefined;
     let camera: import("three").PerspectiveCamera | undefined;
     let sphere: import("three").Mesh | undefined;
+    let spareSphere: import("three").Mesh | undefined;
     let observer: ResizeObserver | undefined;
     let canvas: HTMLCanvasElement | undefined;
     let { yaw, pitch, fov } = viewRef.current;
@@ -200,6 +200,7 @@ function PanoramaViewer({ src, initialYaw, label, keys, loading, error, moveForw
     let lastY = 0;
     const pointers = new Map<number, { x: number; y: number }>();
     let pinchDistance = 0;
+    let transition: { from: import("three").Mesh; to: import("three").Mesh; oldTexture: import("three").Texture | null; newTexture: import("three").Texture; source: string; start: number; startYaw: number; targetYaw: number; startFov: number } | null = null;
 
     const init = async () => {
       try {
@@ -213,11 +214,16 @@ function PanoramaViewer({ src, initialYaw, label, keys, loading, error, moveForw
         renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.6));
         element.appendChild(renderer.domElement);
         canvas = renderer.domElement;
-        const material = new THREE.MeshBasicMaterial({ side: THREE.BackSide });
+        const material = new THREE.MeshBasicMaterial({ side: THREE.BackSide, transparent: true, depthWrite: false, depthTest: false });
         sphere = new THREE.Mesh(new THREE.SphereGeometry(500, 64, 40), material);
         sphereRef.current = sphere;
         sphere.scale.x = -1;
+        sphere.renderOrder = 0;
         scene.add(sphere);
+        spareSphere = new THREE.Mesh(new THREE.SphereGeometry(500, 64, 40), new THREE.MeshBasicMaterial({ side: THREE.BackSide, transparent: true, opacity: 0, depthWrite: false, depthTest: false }));
+        spareSphere.scale.x = -1;
+        spareSphere.renderOrder = 1;
+        scene.add(spareSphere);
 
         const look = () => {
           if (!camera) return;
@@ -299,35 +305,80 @@ function PanoramaViewer({ src, initialYaw, label, keys, loading, error, moveForw
         window.addEventListener("keyup", onKeyUp, { signal: inputEvents.signal });
         window.addEventListener("blur", onWindowBlur, { signal: inputEvents.signal });
         turnRef.current = (direction) => { yaw += direction * 0.28; look(); };
-        alignViewRef.current = (nextYaw) => { yaw = nextYaw; pitch = 0; look(); };
+        const finishTransition = () => {
+          if (!transition) return;
+          const completed = transition;
+          const fromMaterial = completed.from.material as import("three").MeshBasicMaterial;
+          const toMaterial = completed.to.material as import("three").MeshBasicMaterial;
+          fromMaterial.opacity = 0;
+          fromMaterial.map = null;
+          fromMaterial.needsUpdate = true;
+          toMaterial.opacity = 1;
+          completed.from.renderOrder = 0;
+          completed.to.renderOrder = 1;
+          sphere = completed.to;
+          spareSphere = completed.from;
+          sphereRef.current = sphere;
+          textureRef.current = completed.newTexture;
+          loadedSourceRef.current = completed.source;
+          yaw = completed.targetYaw;
+          fov = completed.startFov;
+          transition = null;
+          completed.oldTexture?.dispose();
+          look();
+          setState("ready");
+        };
         observer = new ResizeObserver(resize);
         observer.observe(element);
         resize();
         const loader = new THREE.TextureLoader();
-        const loadPhoto = (nextSrc: string) => {
+        const loadPhoto = (nextSrc: string, targetYaw: number) => {
           const requestId = ++loadRequestRef.current;
           loader.load(nextSrc, (loaded) => {
-            if (cancelled || requestId !== loadRequestRef.current || !sphereRef.current) {
+            if (cancelled || requestId !== loadRequestRef.current || !sphere || !spareSphere) {
               loaded.dispose();
               return;
             }
             loaded.colorSpace = THREE.SRGBColorSpace;
-            const activeSphere = sphereRef.current;
-            (activeSphere.material as import("three").MeshBasicMaterial).map = loaded;
-            (activeSphere.material as import("three").MeshBasicMaterial).needsUpdate = true;
-            textureRef.current?.dispose();
-            textureRef.current = loaded;
-            loadedSourceRef.current = nextSrc;
-            setState("ready");
+            if (!loadedSourceRef.current) {
+              const activeMaterial = sphere.material as import("three").MeshBasicMaterial;
+              activeMaterial.map = loaded;
+              activeMaterial.needsUpdate = true;
+              textureRef.current = loaded;
+              loadedSourceRef.current = nextSrc;
+              yaw = targetYaw;
+              look();
+              setState("ready");
+              return;
+            }
+            if (transition) finishTransition();
+            const from = sphere;
+            const to = spareSphere;
+            const toMaterial = to.material as import("three").MeshBasicMaterial;
+            toMaterial.map = loaded;
+            toMaterial.opacity = 0;
+            toMaterial.needsUpdate = true;
+            const angleDelta = Math.atan2(Math.sin(targetYaw - yaw), Math.cos(targetYaw - yaw));
+            transition = { from, to, oldTexture: textureRef.current, newTexture: loaded, source: nextSrc, start: performance.now(), startYaw: yaw, targetYaw: yaw + angleDelta, startFov: fov };
           }, undefined, () => {
             if (!cancelled && requestId === loadRequestRef.current) setState("error");
           });
         };
         loadPhotoRef.current = loadPhoto;
-        loadPhoto(sourceRef.current);
+        loadPhoto(sourceRef.current, initialYaw);
         const draw = () => {
           if (cancelled || !renderer || !scene || !camera) return;
           frame = requestAnimationFrame(draw);
+          if (transition) {
+            const progress = Math.min(1, (performance.now() - transition.start) / 620);
+            const eased = progress * progress * (3 - 2 * progress);
+            (transition.from.material as import("three").MeshBasicMaterial).opacity = 1 - eased;
+            (transition.to.material as import("three").MeshBasicMaterial).opacity = eased;
+            yaw = transition.startYaw + (transition.targetYaw - transition.startYaw) * eased;
+            fov = transition.startFov - Math.sin(Math.PI * eased) * 13;
+            look();
+            if (progress >= 1) finishTransition();
+          }
           renderer.render(scene, camera);
         };
         draw();
@@ -346,11 +397,17 @@ function PanoramaViewer({ src, initialYaw, label, keys, loading, error, moveForw
       observer?.disconnect();
       loadRequestRef.current += 1;
       loadPhotoRef.current = () => {};
-      textureRef.current?.dispose();
+      const textures = new Set<import("three").Texture>();
+      if (textureRef.current) textures.add(textureRef.current);
+      if (transition?.newTexture) textures.add(transition.newTexture);
+      textures.forEach((texture) => texture.dispose());
       textureRef.current = null;
+      loadedSourceRef.current = "";
       sphereRef.current = null;
       sphere?.geometry.dispose();
-      (sphere?.material as import("three").Material | undefined)?.dispose();
+      spareSphere?.geometry.dispose();
+      const materials = [sphere?.material, spareSphere?.material].filter((material): material is import("three").Material => Boolean(material));
+      materials.forEach((material) => material.dispose());
       renderer?.dispose();
       if (canvas?.parentElement) canvas.parentElement.removeChild(canvas);
     };
@@ -358,9 +415,8 @@ function PanoramaViewer({ src, initialYaw, label, keys, loading, error, moveForw
 
   useEffect(() => {
     if (src === loadedSourceRef.current || !sphereRef.current) return;
-    setState("loading");
-    alignViewRef.current(initialYaw);
-    loadPhotoRef.current(src);
+    if (!loadedSourceRef.current) setState("loading");
+    loadPhotoRef.current(src, initialYaw);
   }, [src, initialYaw]);
 
   return (
