@@ -147,12 +147,12 @@ const copy: Record<Language, Record<string, string>> = {
 const categories: ResourceKind[] = ["foundation", "education", "children"];
 const basePath = import.meta.env.BASE_URL || "/";
 const panoramaPath = (name: string) => basePath + "human-rights-panorama/" + name;
-const photoFiles = Array.from({ length: 29 }, (_, index) => {
-  const number = String(index + 1).padStart(2, "0");
-  return {
-    src: panoramaPath("panorama-" + number + ".jpg"),
-  };
-});
+// Ordered by the visible landmarks and room transitions so each step feels
+// like continuing through the library. Near-identical viewpoints are omitted.
+const walkRoute = [1, 26, 7, 9, 10, 8, 22, 6, 5, 25, 2, 3, 4, 23, 29, 28, 19, 17, 14, 11, 12, 13, 27, 21];
+const photoFiles = walkRoute.map((number) => ({
+  src: panoramaPath("panorama-" + String(number).padStart(2, "0") + ".jpg"),
+}));
 
 function PanoramaViewer({ src, label, keys, loading, error, moveForward, moveBack, turnLeft, turnRight, onWalk }: { src: string; label: string; keys: string; loading: string; error: string; moveForward: string; moveBack: string; turnLeft: string; turnRight: string; onWalk: (direction: number) => void }) {
   const host = useRef<HTMLDivElement>(null);
