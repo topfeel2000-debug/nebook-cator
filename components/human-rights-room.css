@@ -205,27 +205,17 @@
   backdrop-filter: blur(8px);
 }
 .hr-viewer-label { top: 12px; left: 12px; padding: 7px 9px; border-radius: 8px; font-size: 11px; font-weight: 650; }
-.hr-viewer-help { right: 12px; bottom: 12px; padding: 7px 9px; border-radius: 7px; font-size: 10px; }
-.hr-thumb-strip {
-  display: flex;
-  gap: 7px;
-  overflow-x: auto;
-  padding: 10px 0 5px;
-  scrollbar-width: thin;
-  scrollbar-color: #b8bbc1 transparent;
-}
-.hr-thumb-strip button {
-  width: 73px;
-  height: 43px;
-  flex: 0 0 auto;
-  overflow: hidden;
-  padding: 0;
-  border: 2px solid transparent;
-  border-radius: 6px;
-  background: #e2e3e5;
-}
-.hr-thumb-strip button.active { border-color: var(--hr-accent); }
-.hr-thumb-strip button img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.hr-viewer-help { right: 12px; top: 12px; max-width: calc(100% - 100px); padding: 7px 9px; border-radius: 7px; font-size: 10px; }
+.hr-walk-controls { position: absolute; z-index: 3; left: 50%; bottom: 12px; display: flex; align-items: center; gap: 5px; transform: translateX(-50%); padding: 5px; border: 1px solid #ffffff48; border-radius: 12px; background: #111820c9; box-shadow: 0 5px 18px #05090d55; backdrop-filter: blur(8px); }
+.hr-walk-controls button { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid #ffffff2b; border-radius: 9px; background: #ffffff0b; color: white; transition: background .16s ease, transform .16s ease; }
+.hr-walk-controls button:hover { background: #ffffff28; transform: translateY(-1px); }
+.hr-walk-controls button.hr-walk-forward { width: 43px; height: 43px; border-color: #ff944b; background: var(--hr-accent); }
+.hr-walk-route { position: relative; height: 13px; margin: 15px 8px 1px; border-radius: 999px; background: #e5e7ea; }
+.hr-walk-route-fill { position: absolute; top: 5px; left: 0; height: 3px; border-radius: inherit; background: var(--hr-accent); transition: width .35s ease; }
+.hr-walk-route-stop { position: absolute; top: 2px; width: 9px; height: 9px; border: 2px solid #a7adb5; border-radius: 50%; background: white; transform: translateX(-50%); }
+.hr-walk-route-start { left: 0; border-color: var(--hr-accent); }
+.hr-walk-route-current { z-index: 1; width: 13px; height: 13px; top: 0; border: 3px solid white; background: var(--hr-accent); box-shadow: 0 0 0 1px var(--hr-accent); transition: left .35s ease; }
+.hr-walk-route-end { left: 100%; }
 .hr-photo-caption { display: flex; justify-content: space-between; gap: 10px; padding-top: 7px; color: var(--hr-muted); font-size: 10px; }
 .hr-photo-caption span:last-child { flex: 0 0 auto; color: #454b55; font-variant-numeric: tabular-nums; }
 .hr-photo-note { margin: 6px 1px 0; color: #737a84; font-size: 10px; line-height: 1.55; }
@@ -356,8 +346,10 @@
   .hr-scroll-link { min-height: 40px; gap: 7px; padding: 0 11px; font-size: 11px; }
   .hr-photo-card { padding: 11px 11px 10px; border-radius: 15px; }
   .hr-panorama-stage { height: 258px; }
-  .hr-viewer-help { max-width: calc(100% - 24px); right: 8px; bottom: 8px; font-size: 9px; }
-  .hr-thumb-strip button { width: 61px; height: 38px; }
+  .hr-viewer-help { max-width: calc(100% - 100px); right: 8px; top: 8px; font-size: 9px; }
+  .hr-walk-controls { bottom: 8px; gap: 4px; padding: 4px; }
+  .hr-walk-controls button { width: 32px; height: 32px; }
+  .hr-walk-controls button.hr-walk-forward { width: 38px; height: 38px; }
   .hr-photo-caption { font-size: 9px; }
   .hr-sources { padding: 33px 0 27px; }
   .hr-section-heading { align-items: start; gap: 12px; }
